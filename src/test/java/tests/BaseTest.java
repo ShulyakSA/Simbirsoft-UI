@@ -24,12 +24,11 @@ import java.util.Objects;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 
 public class BaseTest {
-    public WebDriver driver = DriverFactory.createDriver();
-    protected AddCustomerPage addCustomerPage = new AddCustomerPage();
-    protected CustomersPage customersPage = new CustomersPage();
-    protected BasePage basePage = new BasePage();
+    public WebDriver driver;
+    protected AddCustomerPage addCustomerPage;
+    protected CustomersPage customersPage;
+    protected BasePage basePage;
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
-
 
     static {
         try {
@@ -38,6 +37,14 @@ public class BaseTest {
             throw new RuntimeException(e);
         }
         LOGGER.info("START TIME:" + LocalTime.now());
+    }
+
+    @BeforeEach
+    void init() {
+        driver = DriverFactory.createDriver();
+        addCustomerPage = new AddCustomerPage();
+        customersPage = new CustomersPage();
+        basePage = new BasePage();
     }
 
     @AfterEach

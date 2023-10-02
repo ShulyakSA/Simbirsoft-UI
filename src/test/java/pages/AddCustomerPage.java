@@ -9,13 +9,13 @@ import static helpers.CommonActions.*;
 
 public class AddCustomerPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='First Name']")
-    WebElement firstNameInput;
+    private WebElement firstNameInput;
     @FindBy(xpath = "//input[@placeholder='Last Name']")
-    WebElement lastNameInput;
+    private WebElement lastNameInput;
     @FindBy(xpath = "//input[@placeholder='Post Code']")
-    WebElement postCodeInput;
+    private WebElement postCodeInput;
     @FindBy(xpath = "//button[text()='Add Customer']")
-    WebElement addCustomerButton;
+    private WebElement addCustomerButton;
 
     public AddCustomerPage() {
         PageFactory.initElements(driver, this);

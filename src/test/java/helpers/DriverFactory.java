@@ -4,7 +4,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import pages.BasePage;
 
 import java.util.concurrent.TimeUnit;
@@ -15,11 +17,14 @@ public class DriverFactory {
         switch (System.getProperty("browser")) {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
+                driver = new ChromeDriver(new ChromeOptions()
+                        /*.addArguments("--headless=new")*/);
+
                 break;
             case "MOZILLA":
                 WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
+                driver = new FirefoxDriver(new FirefoxOptions()
+                        .addArguments("--headless"));
                 break;
             default:
                 Assertions.fail("INCORRECT BROWSER NAME->" + System.getProperty("browser"));

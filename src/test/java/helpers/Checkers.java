@@ -4,12 +4,16 @@ import io.qameta.allure.Step;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pages.BasePage;
 
 import java.util.List;
 
 import static helpers.CommonActions.alertAccept;
 import static helpers.CommonActions.switchToAlert;
+import static helpers.Waits.waitElementIsVisible;
+
 public class Checkers extends BasePage {
 
     @Step("Проверить текст алерта")
@@ -26,6 +30,13 @@ public class Checkers extends BasePage {
     public static void checkSortList(List<String> expectedList,List<String> actualList) {
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThatCollection(expectedList).isEqualTo(actualList);
+    }
+    @Step("Проверить значение '{expectedText}' в строке таблицы")
+    public static void checkTableRow(WebElement element, String expectedText) {
+        waitElementIsVisible(element);
+        String actualText=element.findElement(By.xpath(String.format("./tr[1]/td[contains(text(),'%s')]", expectedText))).getText();
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertThat(actualText).isEqualTo(expectedText);
     }
 
 }
