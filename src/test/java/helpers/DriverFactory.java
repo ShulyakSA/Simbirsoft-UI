@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
     public static WebDriver createDriver() {
-        WebDriver driver = null;
+        WebDriver driver=null;
         switch (System.getProperty("browser")) {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();

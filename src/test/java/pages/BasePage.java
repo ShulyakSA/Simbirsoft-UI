@@ -40,7 +40,11 @@ public class BasePage {
         clickWithWaiting(addCustomer);
         return this;
     }
-
+    @Step("Нажать на кнопку 'Customers'")
+    public BasePage customersList() {
+        clickWithWaiting(customers);
+        return this;
+    }
 
 
 

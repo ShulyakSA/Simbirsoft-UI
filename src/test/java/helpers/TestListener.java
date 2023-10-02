@@ -14,8 +14,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class TestListener implements TestWatcher {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestListener.class);
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestListener.class);
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
         LOGGER.info("Test {} ~ FAILED", context.getTestMethod().get().getName());
@@ -23,7 +23,6 @@ public class TestListener implements TestWatcher {
                 String.valueOf(System.currentTimeMillis()).substring(9, 13);
         LOGGER.info("Trying to trace screenShot...");
         TakesScreenshot ts = (TakesScreenshot) ((BaseTest) context.getRequiredTestInstance()).driver;
-
         File source = ts.getScreenshotAs(OutputType.FILE);
         try {
             FileUtils.copyFile(source, new File("build/reports/tests/" + screenshotName + ".png"));

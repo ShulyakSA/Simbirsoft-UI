@@ -1,10 +1,12 @@
 package helpers;
 
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebElement;
 import pages.BasePage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static helpers.Waits.*;
 
@@ -42,5 +44,22 @@ public class CommonActions extends BasePage {
     @Step("Подтвердить алерт")
     public static void alertAccept(Alert alert) {
         alert.accept();
+    }
+
+    @Step("Получить фактический список")
+    public static List<String> toActualList(List<WebElement> rows) {
+        List<String> list = new ArrayList<>();
+        for (WebElement row : rows) {
+            list.add(row.getText());
+        }
+        return list;
+    }
+    @Step("Получить ожидаемый список")
+    public static List<String> toExpectedList(List<String> rows) {
+        List<String> list = new ArrayList<>();
+        for (String row : rows) {
+            list.add(row);
+        }
+        return list;
     }
 }

@@ -3,6 +3,7 @@ package tests;
 import helpers.DriverFactory;
 import helpers.TestListener;
 import io.qameta.allure.Step;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pages.AddCustomerPage;
 import pages.BasePage;
+import pages.CustomersPage;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +26,10 @@ import java.util.Objects;
 public class BaseTest {
     public WebDriver driver = DriverFactory.createDriver();
     protected AddCustomerPage addCustomerPage = new AddCustomerPage();
+    protected CustomersPage customersPage = new CustomersPage();
     protected BasePage basePage = new BasePage();
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
+
 
     static {
         try {
