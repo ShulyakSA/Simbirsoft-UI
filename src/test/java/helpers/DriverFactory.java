@@ -18,7 +18,7 @@ public class DriverFactory {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver(new ChromeOptions()
-                        /*.addArguments("--headless=new")*/);
+                        .addArguments("--headless=new"));
 
                 break;
             case "MOZILLA":
