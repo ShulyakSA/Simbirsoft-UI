@@ -19,7 +19,9 @@ public class DriverFactory {
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver(new ChromeOptions()
                         .addArguments("--headless=new")
-                        .addArguments("--remote-allow-origins=*"));
+                        .addArguments("--remote-allow-origins=*")
+                        .addArguments("--no-sandbox")
+                        .addArguments("--disable-dev-shm-usage"));
 
                 break;
             case "MOZILLA":
