@@ -26,7 +26,9 @@ public class DriverFactory {
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver(new FirefoxOptions()
                         .addArguments("--headless")
-                        .addArguments("--remote-allow-origins=*"));
+                        .addArguments("--remote-allow-origins=*")
+                        .addArguments("--no-sandbox")
+                        .addArguments("--disable-dev-shm-usage"));
                 break;
             default:
                 Assertions.fail("INCORRECT BROWSER NAME->" + System.getProperty("browser"));
