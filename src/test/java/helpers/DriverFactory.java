@@ -12,6 +12,7 @@ import pages.BasePage;
 import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
+
     public static WebDriver createDriver() {
         WebDriver driver=null;
         switch (System.getProperty("browser")) {
@@ -21,7 +22,8 @@ public class DriverFactory {
                         .addArguments("--headless=new")
                         .addArguments("--remote-allow-origins=*")
                         .addArguments("--no-sandbox")
-                        .addArguments("--disable-dev-shm-usage"));
+                        .addArguments("--disable-dev-shm-usage")
+                        .addArguments("--window-size=1920,1080"));
 
                 break;
             case "MOZILLA":
@@ -30,13 +32,13 @@ public class DriverFactory {
                         .addArguments("--headless")
                         .addArguments("--remote-allow-origins=*")
                         .addArguments("--no-sandbox")
-                        .addArguments("--disable-dev-shm-usage"));
+                        .addArguments("--disable-dev-shm-usage")
+                        .addArguments("--window-size=1920,1080"));
                 break;
             default:
                 Assertions.fail("INCORRECT BROWSER NAME->" + System.getProperty("browser"));
 
         }
-        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Integer.parseInt(System.getProperty("implicit_wait")), TimeUnit.SECONDS);
         BasePage.setDriver(driver);
         return driver;

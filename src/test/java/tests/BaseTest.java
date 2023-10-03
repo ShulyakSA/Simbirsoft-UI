@@ -3,7 +3,6 @@ package tests;
 import helpers.DriverFactory;
 import helpers.TestListener;
 import io.qameta.allure.Step;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,11 +13,8 @@ import pages.AddCustomerPage;
 import pages.BasePage;
 import pages.CustomersPage;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.Objects;
-
 
 @ExtendWith(TestListener.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -30,7 +26,9 @@ public class BaseTest {
     protected BasePage basePage;
     public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
 
-    static {
+
+    @BeforeAll
+    void loadProperties() {
         try {
             System.getProperties().load(ClassLoader.getSystemResourceAsStream("config.properties"));
         } catch (IOException e) {
@@ -59,7 +57,7 @@ public class BaseTest {
 
     @AfterAll
     @Step("Закрытие браузера")
-    void close() {
+    void teardown() {
         if (!Boolean.valueOf(System.getProperty("hold_browser_open"))) {
             driver.quit();
         }

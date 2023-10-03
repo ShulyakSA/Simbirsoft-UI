@@ -16,6 +16,7 @@ import java.io.IOException;
 public class TestListener implements TestWatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestListener.class);
+
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
         LOGGER.info("Test {} ~ FAILED", context.getTestMethod().get().getName());

@@ -1,10 +1,7 @@
 package helpers;
 
 import io.qameta.allure.Step;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pages.BasePage;
 
@@ -40,6 +37,7 @@ public class CommonActions extends BasePage {
 
     @Step("Перейти к алерту")
     public static Alert switchToAlert() {
+        waitAlertIsPresent();
         Alert alert = driver.switchTo().alert();
         return alert;
     }
