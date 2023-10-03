@@ -18,13 +18,15 @@ public class DriverFactory {
             case "CHROME":
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver(new ChromeOptions()
-                        .addArguments("--headless=new"));
+                        .addArguments("--headless=new")
+                        .addArguments("--remote-allow-origins=*"));
 
                 break;
             case "MOZILLA":
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver(new FirefoxOptions()
-                        .addArguments("--headless"));
+                        .addArguments("--headless")
+                        .addArguments("--remote-allow-origins=*"));
                 break;
             default:
                 Assertions.fail("INCORRECT BROWSER NAME->" + System.getProperty("browser"));
