@@ -3,27 +3,33 @@ package tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class SearchClientTest extends BaseTest {
-    final String FIRST_NAME = "Ron";
-    final String LAST_NAME = "Weasly";
-    final String POST_CODE = "E55555";
+    @BeforeEach
+    public void beforeEach() {
+        basePage.addCustomer();
+        addCustomerPage
+                .inputFirstName(config.getTestConfig().getFirstName())
+                .inputLastName(config.getTestConfig().getLastName())
+                .inputPostCode(config.getTestConfig().getPostCode())
+                .clickButtonAddCustomer();
+    }
 
     @Test
     @Owner("Shulyak S.A.")
-    @Description("Поиск клиента")
+    @DisplayName("Поиск клиента")
+    @Description("Проверка поиска созданного клиента клиента по имени")
     public void searchClientTest() {
-        basePage.customersList();
+        basePage.clickButtonCustomersList();
         customersPage
-                .inputFirstName(FIRST_NAME)
-                .searchResult(FIRST_NAME)
-                .searchResult(LAST_NAME)
-                .searchResult(POST_CODE);
+                .inputFirstName(config.getTestConfig().getFirstName())
+                .getSearchResult(config.getTestConfig().getFirstName())
+                .getSearchResult(config.getTestConfig().getLastName())
+                .getSearchResult(config.getTestConfig().getPostCode());
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertAll();
-
-
     }
-
 }

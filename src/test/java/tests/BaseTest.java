@@ -1,65 +1,60 @@
 package tests;
+/**
+ * Класс базового теста. Реализует общие методы для всех тестовых классов
+ */
 
-import helpers.DriverFactory;
+import config.TestConfigFactory;
+import helpers.WebDriverFactory;
 import helpers.TestListener;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import pages.AddCustomerPage;
 import pages.BasePage;
 import pages.CustomersPage;
 
-import java.io.IOException;
-import java.time.LocalTime;
+import static pages.BasePage.setDriver;
+import static steps.MainSteps.openPage;
 
 @ExtendWith(TestListener.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-
 public class BaseTest {
-    public WebDriver driver;
     protected AddCustomerPage addCustomerPage;
     protected CustomersPage customersPage;
     protected BasePage basePage;
-    public static final Logger LOGGER = LoggerFactory.getLogger(BaseTest.class);
+    public ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    static TestConfigFactory config = TestConfigFactory.getInstance();
 
-
-    @BeforeAll
-    void loadProperties() {
-        try {
-            System.getProperties().load(ClassLoader.getSystemResourceAsStream("config.properties"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        LOGGER.info("START TIME:" + LocalTime.now());
-    }
-
+    /**
+     * Инициализация драйвера и страниц, открытие страницы
+     */
     @BeforeEach
     void init() {
-        driver = DriverFactory.createDriver();
+        driver.set(WebDriverFactory.createWebDriver());
+        setDriver(driver.get());
         addCustomerPage = new AddCustomerPage();
         customersPage = new CustomersPage();
         basePage = new BasePage();
+        openPage(config.getWebConfig().getUrl());
     }
 
     @AfterEach
-    @Step("Очистка кэша")
-    void clearCookiesAndLocalStorage() {
-        if (Boolean.valueOf(System.getProperty("clear_cookies"))) {
-            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-            driver.manage().deleteAllCookies();
-            javascriptExecutor.executeScript("window.sessionStorage.clear()");
+    @Step("Закрытие браузера")
+    public void teardown() {
+        clearCookiesAndLocalStorage();
+        if (!config.getWebConfig().isHoldBrowserOpen()) {
+            driver.get().quit();
         }
     }
 
-    @AfterAll
-    @Step("Закрытие браузера")
-    void teardown() {
-        if (!Boolean.valueOf(System.getProperty("hold_browser_open"))) {
-            driver.quit();
+    @Step("Очистка кэша")
+    void clearCookiesAndLocalStorage() {
+        if (config.getWebConfig().isClearCookies()) {
+            JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver.get();
+            driver.get().manage().deleteAllCookies();
+            javascriptExecutor.executeScript("window.sessionStorage.clear()");
         }
     }
 }

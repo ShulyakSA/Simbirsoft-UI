@@ -1,27 +1,31 @@
 package tests;
 
-import helpers.Checkers;
-import io.qameta.allure.Description;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
+import steps.Checkers;
 import io.qameta.allure.Owner;
 import org.junit.jupiter.api.Test;
 
-
 public class AddCustomerTest extends BaseTest{
-    final String FIRST_NAME="Михаил";
-    final String LAST_NAME="Тестов";
-    final String POST_CODE="E58856";
-    final String ALLERT_TEXT="Customer added successfully with customer id :6";
     @Test
     @Owner("Shulyak S.A.")
-    @Description("Создание клиента")
+    @DisplayName("Создание клиента")
     public void addCustomerTest() {
         basePage.addCustomer();
         addCustomerPage
-                .inputFirstName(FIRST_NAME)
-                .inputLastName(LAST_NAME)
-                .inputPostCode(POST_CODE)
-                .buttonAddCustomer();
-        Checkers.checkAlertText(ALLERT_TEXT);
+                .inputFirstName(config.getTestConfig().getFirstName())
+                .inputLastName(config.getTestConfig().getLastName())
+                .inputPostCode(config.getTestConfig().getPostCode())
+                .clickButtonAddCustomer();
+        Checkers.checkAlertText(config.getTestConfig().getAlertText());
+        basePage.clickButtonCustomersList();
+        customersPage
+                .inputFirstName(config.getTestConfig().getFirstName())
+                .getSearchResult(config.getTestConfig().getFirstName())
+                .getSearchResult(config.getTestConfig().getLastName())
+                .getSearchResult(config.getTestConfig().getPostCode());
+        SoftAssertions softAssertions = new SoftAssertions();
+        softAssertions.assertAll();
     }
 }
 

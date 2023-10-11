@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import static helpers.CommonActions.*;
+import static steps.MainSteps.*;
 
 public class AddCustomerPage extends BasePage {
     @FindBy(xpath = "//input[@placeholder='First Name']")
@@ -23,23 +23,25 @@ public class AddCustomerPage extends BasePage {
 
     @Step("Ввести в поле 'First Name' значение '{userFirstName}'")
     public AddCustomerPage inputFirstName(String userFirstName) {
-        input(firstNameInput, userFirstName);
-        return this;
-    }
-    @Step("Ввести в поле 'Last Name' значение '{userLastName}'")
-    public AddCustomerPage inputLastName(String userLastName) {
-        input(lastNameInput, userLastName);
-        return this;
-    }
-    @Step("Ввести в поле 'Post Code' значение '{postCode}'")
-    public AddCustomerPage inputPostCode(String postCode) {
-        input(postCodeInput, postCode);
-        return this;
-    }
-    @Step("Нажать на кнопку 'Add Customer'")
-    public AddCustomerPage buttonAddCustomer() {
-        submitWithWaiting(addCustomerButton);
+        inputField(firstNameInput, "First Name", userFirstName);
         return this;
     }
 
+    @Step("Ввести в поле 'Last Name' значение '{userLastName}'")
+    public AddCustomerPage inputLastName(String userLastName) {
+        inputField(lastNameInput, "Last Name", userLastName);
+        return this;
+    }
+
+    @Step("Ввести в поле 'Post Code' значение '{postCode}'")
+    public AddCustomerPage inputPostCode(String postCode) {
+        inputField(postCodeInput, "Post Code", postCode);
+        return this;
+    }
+
+    @Step("Нажать на кнопку 'Add Customer'")
+    public AddCustomerPage clickButtonAddCustomer() {
+        clickWithWaiting(addCustomerButton, "Add Customer");
+        return this;
+    }
 }
